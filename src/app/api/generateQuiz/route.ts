@@ -7,7 +7,8 @@ import OpenAI from "openai";
 //   answer: string;
 //   explanation: string;
 // };
-export async function POST(req: NextRequest) {
+
+export const POST = async (req: NextRequest) => {
   const { content } = await req.json();
 
   if (!content) {
@@ -72,4 +73,4 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     );
   }
-}
+};
