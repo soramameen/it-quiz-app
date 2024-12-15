@@ -7,8 +7,7 @@ import OpenAI from "openai";
 //   answer: string;
 //   explanation: string;
 // };
-
-export async function POST(req: NextRequest) {
+export default async function POST(req: NextRequest) {
   const { content } = await req.json();
 
   if (!content) {
