@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import fetchNews from "@/lib/fetchNews";
+import fetchNewsFromApi from "@/lib/fetchNewsFromApi";
 import { NewsResponse } from "@/lib/fetchNews";
 
 type Quiz = {
@@ -27,7 +27,7 @@ export const QuizApp: React.FC = () => {
     async function getNewsAndQuizzes() {
       try {
         // ニュースを取得
-        const response: NewsResponse = await fetchNews();
+        const response: NewsResponse = await fetchNewsFromApi();
         setNews(response);
 
         // クイズ生成
