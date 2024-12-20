@@ -32,7 +32,7 @@ export const QuizApp: React.FC = () => {
 
         // クイズ生成
         const generatedQuizzes: Quiz[] = [];
-        for (const article of response.articles.slice(0, 3)) {
+        for (const article of response.articles.slice(0, 5)) {
           const quizResponse = await fetch("/api/generateQuiz", {
             method: "POST",
             headers: {
