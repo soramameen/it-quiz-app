@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# IT クイズアプリ
 
-## Getting Started
+このプロジェクトは、IT に関するクイズを提供するウェブアプリケーションです。Next.js を使用して構築されており、ユーザーが IT 知識をテストし、学習を深めることができます。
 
-First, run the development server:
+## デモ
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+アプリのライブデモは以下の URL で確認できます：  
+[IT クイズアプリ デモ](https://www.snapquiz.jp/)
+newsAPI がローカルの使用しか許可されていないため news のデータが取得できず，動きません．
+
+## 機能
+
+- 多岐にわたる IT 関連のクイズ問題
+- リアルタイムでの回答フィードバック
+- ユーザーのスコア追跡
+- レスポンシブデザインによるモバイル対応
+
+## 使用技術
+
+- フレームワーク: Next.js
+- スタイリング: Tailwind CSS
+- フォント最適化: `next/font` を使用し、Geist フォントを自動的に最適化してロード
+
+## セットアップ
+
+ローカル環境でこのプロジェクトを実行するには、以下の手順に従ってください：
+
+1. リポジトリをクローンします：
+   ```
+   git clone https://github.com/soramameen/it-quiz-app.git
+   ```
+2. ディレクトリに移動します：
+
+```
+cd it-quiz-app
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. 依存関係をインストールします：
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. 環境変数を設定します:
+   プロジェクトのルートディレクトリに.env ファイルを作成し、以下の内容を追加してください：
+   注意：openaikey の利用は有料です．
 
-## Learn More
+```
+OPENAI_API_KEY=your-openai-key
+NEWS_API_KEY=your-news-api-key
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. 開発サーバーを起動します：
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+npm run dev
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
 
-## Deploy on Vercel
+5. ブラウザで以下の URL にアクセスします：
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+http://localhost:3000
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## デプロイ
+
+このアプリケーションは、Vercel を使用してデプロイされています。デプロイに関する詳細な手順やオプションについては、Next.js のデプロイメントドキュメントを参照してください。
+
+## 貢献
+
+貢献を歓迎します。バグ報告や機能提案は、Issues セクションで受け付けています。プルリクエストを送る前に、問題が既に報告されていないか確認してください。
