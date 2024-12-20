@@ -54,7 +54,6 @@ NEWS_API_KEY=your-news-api-key
 
 ```
 npm run dev
-
 ```
 
 5. ブラウザで以下の URL にアクセスします：
