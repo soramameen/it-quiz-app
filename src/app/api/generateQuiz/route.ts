@@ -1,12 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
-
-// type Quiz = {
-//   question: string;
-//   options: string[];
-//   answer: string;
-//   explanation: string;
-// };
 
 export const POST = async (req: NextRequest) => {
   const { content } = await req.json();
@@ -15,28 +7,35 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ error: "Content is required" }, { status: 400 });
   }
 
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY || "your-api-key-here",
-  });
-
   try {
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are an AI that generates multiple-choice quizzes from content.",
+    // Groq API の OpenAI互換エンドポイントを呼び出す
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${
+            process.env.GROQ_API_KEY || "your-groq-api-key-here"
+          }`,
         },
-        {
-          role: "user",
-          content: `あなたはニュース記事を基に三択クイズを作成するAIです。以下のニュースをもとに、三択クイズを生成してください。
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile", // 使用するモデル名（必要に応じて変更）
+          messages: [
+            {
+              role: "system",
+              content:
+                "You are an AI that generates multiple-choice quizzes from content.",
+            },
+            {
+              role: "user",
+              content: `あなたはニュース記事を基に三択クイズを作成するAIです。以下のニュースをもとに、三択クイズを生成してください。
 
 **ニュース記事**:
-    [${content}]
+[${content}]
 
 **出力形式**:
-以下の形式でJSON形式で出力してください（整形済みのJSONとして出力してください）。もちろん内容はすべて日本語で答えてください．
+以下の形式でJSON形式で出力してください（整形済みのJSONとして出力してください）。もちろん内容はすべて日本語で答えてください。
 {
   "question": "ニュースの内容に基づくクイズの質問",
   "options": ["選択肢1", "選択肢2", "選択肢3"],
@@ -48,10 +47,10 @@ export const POST = async (req: NextRequest) => {
 - 質問はニュース記事の重要なポイントに基づいて作成してください。
 - 選択肢は正解1つと不正解2つを含め、内容がそれぞれニュースと関連するものにしてください。
 - 補足説明には、ニュース記事の一部を簡潔に要約してください。
-- クイズの内容は，クイズを読んでいなくても知識を得られるような有意義なものにしてください。
+- クイズの内容は、クイズを読んでいなくても知識を得られるような有意義なものにしてください。
 
 **例**:
-ニュース: 「AIが進化を続け、さまざまな分野で利用され始めています。特に医療分野では診断支援が注目されています。」 
+ニュース: 「AIが進化を続け、さまざまな分野で利用され始めています。特に医療分野では診断支援が注目されています。」
 出力:
 {
   "question": "AIが特に注目されている分野はどれですか？",
@@ -61,11 +60,23 @@ export const POST = async (req: NextRequest) => {
 }
 
 それでは、ニュースを基にクイズを作成してください。`,
-        },
-      ],
-    });
+            },
+          ],
+        }),
+      }
+    );
 
-    const quiz = JSON.parse(completion.choices[0]?.message?.content || "{}");
+    // レスポンスの JSON を取得
+    const data = await response.json();
+    console.log("Groq API response:", data);
+
+    if (!data.choices || data.choices.length === 0) {
+      return NextResponse.json({ error: "No quiz generated" }, { status: 500 });
+    }
+
+    // Groq API のレスポンス形式が OpenAI と同様と仮定して、quiz を抽出
+    const quizText = data.choices[0]?.message?.content;
+    const quiz = JSON.parse(quizText || "{}");
     return NextResponse.json(quiz, { status: 200 });
   } catch (error) {
     console.error("Error generating quiz:", error);

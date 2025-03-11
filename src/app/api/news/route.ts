@@ -29,7 +29,7 @@ const fetchNews = async (): Promise<NewsResponse> => {
     const response = await axios.get<NewsResponse>(`${BASE_URL}/everything`, {
       params: {
         apiKey: API_KEY,
-        q: "AI", // 検索キーワード
+        q: "AI OR IT engineering OR software development OR programming OR technology", // 検索キーワード
         language: "en", // 言語
       },
     });
