@@ -76,7 +76,7 @@ export const POST = async (req: NextRequest) => {
 
     const quiz = await generateQuiz(content);
     return NextResponse.json(quiz, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to generate quiz" },
       { status: 500 }
