@@ -20,7 +20,7 @@ export const POST = async (req: NextRequest) => {
           }`,
         },
         body: JSON.stringify({
-          model: "llama-3.3-70b-versatile", // 使用するモデル名（必要に応じて変更）
+          model: "llama-3.3-70b-versatile",
           messages: [
             {
               role: "system",
@@ -40,24 +40,17 @@ export const POST = async (req: NextRequest) => {
   "question": "ニュースの内容に基づくクイズの質問",
   "options": ["選択肢1", "選択肢2", "選択肢3"],
   "answer": "正しい選択肢",
-  "explanation": "クイズの正答に関する1行の補足説明"
+  "explanation": "クイズの正答に関する技術者向けの補足説明"
 }
 
 **条件**:
-- 質問はニュース記事の重要なポイントに基づいて作成してください。
-- 選択肢は正解1つと不正解2つを含め、内容がそれぞれニュースと関連するものにしてください。
-- 補足説明には、ニュース記事の一部を簡潔に要約してください。
-- クイズの内容は、クイズを読んでいなくても知識を得られるような有意義なものにしてください。
-
-**例**:
-ニュース: 「AIが進化を続け、さまざまな分野で利用され始めています。特に医療分野では診断支援が注目されています。」
-出力:
-{
-  "question": "AIが特に注目されている分野はどれですか？",
-  "options": ["農業", "医療", "建築"],
-  "answer": "医療",
-  "explanation": "AIは医療分野で診断支援に注目されています。"
-}
+- 質問はニュース記事の中で最も注目すべき内容をもとに、「そのニュースの背景・影響」を考えさせるように作成してください。
+- 例えば、「新しいAIが発表された」なら「この技術の主な用途は何か？」、「Reactがアップデートされた」なら「追加された主要な新機能は？」といった内容にする。
+- 選択肢は正解1つと、不正解2つを含めてください。
+- ただし、不正解の選択肢も「ニュースの内容に似ているが誤解しやすいもの」にしてください。
+  例えば、「Googleが新しいAIボタンを発表した」なら、不正解選択肢に「Appleが発表」「Microsoftが発表」など、近いが間違った情報を含める。
+- 補足説明には、ニュース記事の要点と、そのニュースが技術者にとってなぜ重要なのかを簡潔に説明してください。
+  例えば、新しいプログラミング言語が発表された場合、「従来の言語との違い」や「開発者にとっての利点」などを加える。
 
 それでは、ニュースを基にクイズを作成してください。`,
             },
@@ -74,7 +67,6 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json({ error: "No quiz generated" }, { status: 500 });
     }
 
-    // Groq API のレスポンス形式が OpenAI と同様と仮定して、quiz を抽出
     const quizText = data.choices[0]?.message?.content;
     const quiz = JSON.parse(quizText || "{}");
     return NextResponse.json(quiz, { status: 200 });

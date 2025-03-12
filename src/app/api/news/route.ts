@@ -1,24 +1,6 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
-
-interface Article {
-  source: {
-    id: string | null;
-    name: string;
-  };
-  author: string | null;
-  title: string;
-  description: string;
-  url: string;
-  publishedAt: string;
-  content: string | null;
-}
-
-export interface NewsResponse {
-  status: string;
-  totalResults: number;
-  articles: Article[];
-}
+import { NewsResponse } from "@/interfaces/interface";
 
 const fetchNews = async (): Promise<NewsResponse> => {
   const API_KEY = process.env.NEWS_API_KEY;
@@ -29,8 +11,11 @@ const fetchNews = async (): Promise<NewsResponse> => {
     const response = await axios.get<NewsResponse>(`${BASE_URL}/everything`, {
       params: {
         apiKey: API_KEY,
-        q: "AI OR IT engineering OR software development OR programming OR technology", // 検索キーワード
-        language: "en", // 言語
+        q: "(React OR Next.js OR TypeScript OR JavaScript OR AI OR OpenAI OR Claude Sonnet OR ChatGPT OR Google Gemini OR software release OR framework update)",
+        language: "en",
+        sources: "the-verge, wired, techcrunch, arstechnica",
+        from: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 過去7日間
+        sortBy: "publishedAt",
       },
     });
 

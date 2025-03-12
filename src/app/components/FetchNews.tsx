@@ -3,14 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import fetchNewsFromApi from "@/lib/fetchNewsFromApi";
-import { NewsResponse } from "@/lib/fetchNews";
-
-type Quiz = {
-  question: string;
-  options: string[];
-  answer: string;
-  explanation: string;
-};
+import { Quiz, NewsResponse } from "@/interfaces/interface";
 
 export const QuizApp: React.FC = () => {
   const [news, setNews] = useState<NewsResponse | null>(null);
