@@ -6,7 +6,7 @@ export const fetchNewsAndGenerateQuizzes = async (): Promise<Quiz[]> => {
     const response: NewsResponse = await fetchNewsFromApi();
 
     const generatedQuizzes = await Promise.all(
-      response.articles.slice(0, 5).map(async (article) => {
+      response.articles.slice(0, 10).map(async (article) => {
         const quizResponse = await fetch("/api/generateQuiz", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -14,7 +14,7 @@ export const fetchNewsAndGenerateQuizzes = async (): Promise<Quiz[]> => {
             content: `title:${article.title} content:${article.description}`,
           }),
         });
-        return quizResponse.ok ? await quizResponse.json() : null;
+        return quizResponse.ok ? await quizResponse.json() : null; //.json()はPromiseを返すのでawaitで待つ
       })
     );
 

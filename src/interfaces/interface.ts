@@ -29,3 +29,15 @@ export interface NewsResponse {
   totalResults: number;
   articles: Article[];
 }
+export interface QuizQuestionProps {
+  quiz: Quiz;
+  currentQuiz: number;
+  totalQuizzes: number;
+  onAnswer: (selectedOption: string) => void;
+}
+export interface QuizResultsProps {
+  quizzes: Quiz[];
+  userAnswers: string[];
+  score: number;
+  onRestart: () => void;
+}

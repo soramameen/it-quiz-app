@@ -1,12 +1,5 @@
 import React from "react";
-import { Quiz } from "@/interfaces/interface";
-
-interface QuizQuestionProps {
-  quiz: Quiz;
-  currentQuiz: number;
-  totalQuizzes: number;
-  onAnswer: (selectedOption: string) => void;
-}
+import { QuizQuestionProps } from "@/interfaces/interface";
 
 const QuizQuestion: React.FC<QuizQuestionProps> = ({
   quiz,
@@ -20,8 +13,10 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
       <div className="bg-white shadow p-6 rounded max-w-lg w-full">
         <p className="mb-4">
           {currentQuiz + 1}. {quiz?.question}
+          {/* クイズ表示 */}
         </p>
         <div className="space-y-2">
+          {/* 選択肢表示 */}
           {quiz?.options.map((option, index) => (
             <button
               key={index}
@@ -33,6 +28,7 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
           ))}
         </div>
         <div className="mt-4 text-right">
+          {/* 現在のクイズ番号 */}
           <span>
             {currentQuiz + 1} / {totalQuizzes}
           </span>

@@ -8,6 +8,14 @@ import QuizResults from "@/app/components/QuizResults";
 import QuizQuestion from "@/app/components/QuizQuestion";
 
 const QuizApp: React.FC = () => {
+  /*
+    quizzes: クイズの配列
+    loading: ニュースを読み込んでいるかどうか
+    currentQuiz: 現在のクイズのインデックス
+    userAnswers: ユーザーの回答の配列
+    showResults: 結果を表示するかどうか
+    score: ユーザーのスコア
+  */
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentQuiz, setCurrentQuiz] = useState<number>(0);

@@ -1,12 +1,6 @@
 import React from "react";
 import { Quiz } from "@/interfaces/interface";
-
-interface QuizResultsProps {
-  quizzes: Quiz[];
-  userAnswers: string[];
-  score: number;
-  onRestart: () => void;
-}
+import { QuizResultsProps } from "@/interfaces/interface";
 
 const QuizResults: React.FC<QuizResultsProps> = ({
   quizzes,
@@ -33,6 +27,7 @@ const QuizResults: React.FC<QuizResultsProps> = ({
                   : "text-red-500"
               }`}
             >
+              {/*正解なら緑、不正解なら赤*/}
               あなたの答え: {userAnswers[index]}
             </p>
             <p className="text-blue-500">正解: {quiz.answer}</p>
@@ -44,6 +39,7 @@ const QuizResults: React.FC<QuizResultsProps> = ({
         className="mt-4 px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600"
         onClick={onRestart}
       >
+        {/* useEffectが起動されリセットされる */}
         トップに戻る
       </button>
     </div>
