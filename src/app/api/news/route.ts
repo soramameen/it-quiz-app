@@ -2,60 +2,51 @@ import { NextResponse } from "next/server";
 import axios from "axios";
 import { NewsResponse } from "@/interfaces/interface";
 
-const fetchNews = async (): Promise<NewsResponse> => {
-  const API_KEY = process.env.NEWS_API_KEY;
-  const BASE_URL = "https://newsapi.org/v2";
+const API_KEY = process.env.NEWS_API_KEY;
+const BASE_URL = "https://newsapi.org/v2";
+const NEWS_SOURCES = "the-verge, wired, techcrunch, arstechnica";
+const SEARCH_QUERY =
+  "(React OR Next.js OR TypeScript OR JavaScript OR AI OR OpenAI OR Claude Sonnet OR ChatGPT OR Google Gemini OR software release OR framework update)";
+const DATE_RANGE = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
+const fetchNews = async (): Promise<NewsResponse> => {
   try {
-    console.log("catching news....");
+    console.log("Fetching news...");
     const response = await axios.get<NewsResponse>(`${BASE_URL}/everything`, {
       params: {
         apiKey: API_KEY,
-        q: "(React OR Next.js OR TypeScript OR JavaScript OR AI OR OpenAI OR Claude Sonnet OR ChatGPT OR Google Gemini OR software release OR framework update)",
+        q: SEARCH_QUERY,
         language: "en",
-        sources: "the-verge, wired, techcrunch, arstechnica",
-        from: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 過去7日間
+        sources: NEWS_SOURCES,
+        from: DATE_RANGE,
         sortBy: "publishedAt",
       },
     });
-
     return response.data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      // AxiosError の場合
-      console.error(
-        "ニュース取得中にエラーが発生しました:",
-        error.response?.data
-      );
-    } else if (error instanceof Error) {
-      // 標準 Error オブジェクトの場合
-      console.error("ニュース取得中にエラーが発生しました:", error.message);
-    } else {
-      // その他の型の場合
-      console.error("ニュース取得中に不明なエラーが発生しました:", error);
-    }
+  } catch (error) {
+    handleFetchError(error);
     throw new Error("Failed to fetch news");
+  }
+};
+
+const handleFetchError = (error: unknown) => {
+  if (axios.isAxiosError(error)) {
+    console.error("News fetch error:", error.response?.data);
+  } else if (error instanceof Error) {
+    console.error("News fetch error:", error.message);
+  } else {
+    console.error("Unknown news fetch error:", error);
   }
 };
 
 export const GET = async () => {
   try {
     const news = await fetchNews();
-    return NextResponse.json(news); // 取得したデータをそのまま返す
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      // AxiosError の場合
-      console.error(
-        "ニュース取得中にエラーが発生しました:",
-        error.response?.data
-      );
-    } else if (error instanceof Error) {
-      // 標準 Error オブジェクトの場合
-      console.error("ニュース取得中にエラーが発生しました:", error.message);
-    } else {
-      // その他の型の場合
-      console.error("ニュース取得中に不明なエラーが発生しました:", error);
-    }
-    throw new Error("Failed to fetch news");
+    return NextResponse.json(news);
+  } catch {
+    return NextResponse.json(
+      { error: "Failed to fetch news" },
+      { status: 500 }
+    );
   }
 };

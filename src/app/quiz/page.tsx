@@ -1,11 +1,12 @@
 import React from "react";
-import { QuizApp } from "@/app/components/FetchNews";
-function page() {
+import QuizApp from "@/app/components/QuizApp";
+
+const Page = () => {
   return (
     <div>
       <QuizApp />
     </div>
   );
-}
+};
 
-export default page;
+export default Page;
