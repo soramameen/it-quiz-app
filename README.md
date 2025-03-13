@@ -43,10 +43,9 @@ npm install
 
 4. 環境変数を設定します:
    プロジェクトのルートディレクトリに.env ファイルを作成し、以下の内容を追加してください：
-   注意：openaikey の利用は有料です．
 
 ```
-OPENAI_API_KEY=your-openai-key
+GROQ_API_KEY=your-openai-key
 NEWS_API_KEY=your-news-api-key
 ```
 
@@ -64,7 +63,7 @@ http://localhost:3000
 
 ## デプロイ
 
-このアプリケーションは、Vercel を使用してデプロイされています。デプロイに関する詳細な手順やオプションについては、Next.js のデプロイメントドキュメントを参照してください。
+このアプリケーションは、Vercel を使用してデプロイされています。
 
 ## 貢献
 

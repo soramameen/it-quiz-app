@@ -56,7 +56,20 @@ const QuizApp: React.FC = () => {
     }
   };
 
-  if (loading) return <p>ニュースとクイズを読み込み中...</p>;
+  if (loading)
+    return (
+      <div className="relative min-h-screen bg-gray-100 flex items-center justify-center">
+        <button
+          onClick={() => router.push("/")}
+          className="absolute top-4 left-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+        >
+          タイトルに戻る
+        </button>
+        <p className="text-lg text-gray-700 font-medium">
+          ニュースとクイズを読み込み中...
+        </p>
+      </div>
+    );
 
   if (showResults)
     return (
@@ -69,14 +82,33 @@ const QuizApp: React.FC = () => {
     );
 
   return quizzes.length > 0 ? (
-    <QuizQuestion
-      quiz={quizzes[currentQuiz]}
-      currentQuiz={currentQuiz}
-      totalQuizzes={quizzes.length}
-      onAnswer={handleAnswer}
-    />
+    <div className="relative min-h-screen bg-gray-100">
+      {/* タイトルに戻るボタン */}
+      <button
+        onClick={() => router.push("/")}
+        className="absolute top-4 left-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+      >
+        タイトルに戻る
+      </button>
+      <QuizQuestion
+        quiz={quizzes[currentQuiz]}
+        currentQuiz={currentQuiz}
+        totalQuizzes={quizzes.length}
+        onAnswer={handleAnswer}
+      />
+    </div>
   ) : (
-    <p>クイズを取得できませんでした。</p>
+    <div className="relative min-h-screen bg-gray-100 flex items-center justify-center">
+      <button
+        onClick={() => router.push("/")}
+        className="absolute top-4 left-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+      >
+        タイトルに戻る
+      </button>
+      <p className="text-lg text-gray-700 font-medium">
+        クイズを取得できませんでした{" "}
+      </p>
+    </div>
   );
 };
 
